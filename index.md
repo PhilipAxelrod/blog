@@ -1,3 +1,8 @@
+---
+title: Philip Axelrod's Tech Shenanigans
+description: Philip Axelrod's tech blog
+---
+
 ## Welcome to my tech blog!
 
 I am a rising senior studying mathematics 
