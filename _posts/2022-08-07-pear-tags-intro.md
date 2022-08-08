@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "P-air tags: Exploring ideas for building an AirTag alternative"
+title: "P-air tags: Let's Explore building an AirTag Alternative"
 date: 2022-08-07 21:00:00 -0000
 categories: P-AirTags Pear-tags
 ---
