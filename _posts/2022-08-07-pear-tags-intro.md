@@ -1,4 +1,5 @@
 ---
+theme: jekyll-theme-cayman
 layout: post
 title: "P-air tags: Exploring ideas for building an AirTag alternative"
 date: 2022-08-07 21:00:00 -0000
