@@ -76,12 +76,13 @@ to account for RSSI noise.
 Blog post about the scripting necessary to achieve this task coming soon. 
 Below is a crude drawing I made of several rooms in my house:
 
-![All-Data](./images/crude-home-data/floor%20plan.PNG)
+![]({{./images/crude-home-data/floor%20plan.PNG | absolute_url}})
 
 And here are my measurements of RSSIs from my neighbor's wifi
 at various locations! 
 
 ![All-Data](./images/crude-home-data/all-neighbor-distributions.png)
+
 Tada!
 Let's select just a few locations to compare at the same time so we're not so overwhelmed with data.
 Here is the distribution of RSSI's at the bookshelf, the piano, and location 9 (the kitchen)
