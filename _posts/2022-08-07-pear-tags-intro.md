@@ -76,17 +76,17 @@ to account for RSSI noise.
 Blog post about the scripting necessary to achieve this task coming soon. 
 Below is a crude drawing I made of several rooms in my house:
 
-![]({{./images/crude-home-data/floor%20plan.PNG | absolute_url}})
+![](/assets/images/crude-home-data/floor%20plan.PNG)
 
 And here are my measurements of RSSIs from my neighbor's wifi
 at various locations! 
 
-![All-Data](./images/crude-home-data/all-neighbor-distributions.png)
+![All-Data](/assets/images/crude-home-data/all-neighbor-distributions.png)
 
 Tada!
 Let's select just a few locations to compare at the same time so we're not so overwhelmed with data.
 Here is the distribution of RSSI's at the bookshelf, the piano, and location 9 (the kitchen)
-![](./images/crude-home-data/piano-kitchen-bookshelf.png)
+![](/assets/images/crude-home-data/piano-kitchen-bookshelf.png)
 
 From this we have some good news and some bad news.
 For the good news, the RSSI distribution is clearly
@@ -104,21 +104,21 @@ is not enough to differentiate between the bookshelf
 location and the oven location.
 This is also the case for the location of
 my home router:
-![](./images/crude-home-data/router-book-kitchen.png)
+![](/assets/images/crude-home-data/router-book-kitchen.png)
 
 The RSSI distributions are slightly different 
 for location 5 and 6, but not enough to inspire
 confidence:
-![](./images/crude-home-data/router-book-kitchen-5-6.png)
+![](/assets/images/crude-home-data/router-book-kitchen-5-6.png)
 
 There are really only 3 clearly distinct RSSI distributions: the router distribution groups, the piano group,
 and the area 5/border area distribution:
 
-![](./images/crude-home-data/neighbor-3-group.png)
+![](/assets/images/crude-home-data/neighbor-3-group.png)
 
 Let's see if we can differentiate within the router group using my own network,
 which is cleverly named PBIB10112408:
-![](./images/crude-home-data/pb%205-ghz/router%20group.png)
+![](/assets/images/crude-home-data/pb%205-ghz/router%20group.png)
 
 Wow! we have perfect separation! 
 Now let's include the distributions in the router group that were partially distinct
