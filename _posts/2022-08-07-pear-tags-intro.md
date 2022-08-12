@@ -33,21 +33,23 @@ Join me on this adventure to create PearTags!
 Unlike AirTags, my tracker will not have a large network of GPS enabled iPhones to rely on for location measurements. 
 Instead, PearTags will have to take their own measurements with their own sensors and calculate their locations
 using their own processors.
-From my literature review (insert citation here), there are three main options for measurements that PearTags could make
-while maintaining a small form factor:
+From my literature review, there are three main options for measurements that PearTags could make
+while maintaining a small form factor tracker without requiring uncommon features such as routers with 8 or more antentas or that implement the IEEE 802.11mc standard:
 
 * Satellite GPS data
-* Cell tower signal strengths
-* Wi-Fi router measurements
+* Cell tower signal strengths 
+* Wi-Fi router signal strengths
+* Magnetic compass measurements
 
 While GPS can be fairly accurate in outdoor locations, it wouldn't work well for PearTags.
 In indoor locations, GPS devices can't connect to as many GPS satellites as they can outdoors, greatly reducing their
 accuracy indoors.
 
-I also looked into using cell tower data because cell signal functions consistently in most outdoor *and* locations.
+I also looked into using cell tower data because cell signal functions consistently in most outdoor *and* indoor locations.
 By measuring the strength of a cell signal from a particular tower, one can measure the distance from that tower.
-Repeat that process three times, and you get three circles whose intersection reveals the tracker's location.
+Repeat that process with three different cell towers, and you get three circles whose intersection reveals the tracker's location.
 This is known as "triangulation," or "cell signal triangulation" in this case.
+
 ![](/assets/images/cell%20triangulation.jpg)
 
 *Image courtesy of O'Reily, [source](https://www.oreilly.com/library/view/windows-phone-8/9780133383959/ch17lev2sec2.html)*
@@ -55,11 +57,11 @@ This is known as "triangulation," or "cell signal triangulation" in this case.
 Unfortunately, this method tends to have an accuracy in the tens of meters.
 This might help me find which building I left my jacket in, but nothing more accurate than that.
 
-Finally, PearTags could measure Wi-Fi signals.
-Unfortunately, Wi-Fi signals use on a lower wavelength than cell signal, which means that
-physical objects like walls weaken and reflect Wi-Fi signals.
-Thus, you can't accurately calculate the distance to a router based on Wi-Fi signal strength,
-and therefore cannot use triangulation.
+Finally, PearTags could measure Wi-Fi signal strengths.
+Unfortunately, Wi-Fi signals use a lower wavelength than cell signals, which means that
+physical objects like walls significantly weaken and reflect Wi-Fi signals. 
+This leads to inaccurate measurments of the distance from the device to the router
+Using triangulation with these distance measurements leads to an accuracy as poor as 5 meters [\[1\]](https://web.stanford.edu/~skatti/pubs/sigcomm15-spotfi.pdf).
 
 A strategy known as Wi-Fi fingerprinting overcomes this obstacle by 
 not considering distance in the first place.
@@ -70,7 +72,7 @@ map of fingerprints.
 The fingerprint closest to its current measurement is the devices' location.
 Fancier Wi-Fi algorithms can get more precise location estimates by interpolating between nearby fingerprints. 
 
-Wi-Fi fingerprinting can achieve an accuracy in single digit meters and functions well indoors, which is why I 
+The best Wi-Fi fingerprinting implementations can achieve a minmum accuracy of 1.3 meters and functions well indoors[\[1\]](https://web.stanford.edu/~skatti/pubs/sigcomm15-spotfi.pdf), which is why I 
 ultimately decided to use it for PearTags.
 
 ## Creating a simple proof of concept
