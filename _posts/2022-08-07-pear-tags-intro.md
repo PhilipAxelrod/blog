@@ -5,7 +5,7 @@ date: 2022-08-07 21:00:00 -0000
 categories: P-AirTags Pear-tags
 ---
 
-## The need for AirTag alternatives
+## AirTag suck, and we need better alternatives 
 My excitement for Apple's AirTags was summarily crushed upon realizing AirTags are not Android compatible.
 While there are AirTag equivalents for non-iPhones such as Tile,
 they don't work nearly as well. 
@@ -34,7 +34,7 @@ Unlike AirTags, my tracker will not have a large network of GPS enabled iPhones 
 Instead, PearTags will have to take their own measurements with their own sensors and calculate their locations
 using their own processors.
 From my literature review, there are three main options for measurements that PearTags could make
-while maintaining a small form factor tracker without requiring uncommon features such as routers with 8 or more antentas or that implement the IEEE 802.11mc standard:
+while maintaining a small form factor tracker without requiring uncommon features such as routers with 8 or more antennas or that implement the IEEE 802.11mc standard:
 
 * Satellite GPS data
 * Cell tower signal strengths 
@@ -60,7 +60,7 @@ This might help me find which building I left my jacket in, but nothing more acc
 Finally, PearTags could measure Wi-Fi signal strengths.
 Unfortunately, Wi-Fi signals use a lower wavelength than cell signals, which means that
 physical objects like walls significantly weaken and reflect Wi-Fi signals. 
-This leads to inaccurate measurments of the distance from the device to the router
+This leads to inaccurate measurements of the distance from the device to the router
 Using triangulation with these distance measurements leads to an accuracy as poor as 5 meters [\[1\]](https://web.stanford.edu/~skatti/pubs/sigcomm15-spotfi.pdf).
 
 A strategy known as Wi-Fi fingerprinting overcomes this obstacle by 
@@ -72,16 +72,20 @@ map of fingerprints.
 The fingerprint closest to its current measurement is the devices' location.
 Fancier Wi-Fi algorithms can get more precise location estimates by interpolating between nearby fingerprints. 
 
-The best Wi-Fi fingerprinting implementations can achieve a minmum accuracy of 1.3 meters and functions well indoors[\[1\]](https://web.stanford.edu/~skatti/pubs/sigcomm15-spotfi.pdf), which is why I 
+The best Wi-Fi fingerprinting implementations can achieve a minimum accuracy of 1.3 meters and functions well indoors[\[1\]](https://web.stanford.edu/~skatti/pubs/sigcomm15-spotfi.pdf), which is why I 
 ultimately decided to use it for PearTags.
 
-## Creating a simple proof of concept
-Before rushing along to create a complicated algorithm that may ultimately fail, I wanted to 
-first create a proof of concept. 
-In particular, I wanted to be able to measure RSSI's in several location in my home,
-and see there is enough data to clearly differentiate one location from another.
-After all, in order for this adventure to succeed, it must be able to differentiate between my living room
-and my kitchen.
+## A proof of concept
+Before collecting tons of data, thinking about fancy algorithms, and writing tons of code, I figured I should start small. 
+I'd first explore and implement Wi-Fi fingerprinting in a simple and small context, just in my house.
+This way, I can identify simple problems more easily without distracting myself with the more
+complicated challenges associated with larger areas. 
+
+The first thing I did was a sanity check.
+In particular, I wanted to know if there are distinguishable differences between a Wi-Fi 
+fingerprint in my kitchen, living room, and dining room.
+ 
+The first thing I did was measure RSSIs with my laptop in various rooms in my house. 
 
 Thus, I set about placing my laptop in various parts of my house, collecting 2 minutes worth of RSSI data
 to account for RSSI noise.
