@@ -34,7 +34,7 @@ Unlike AirTags, my tracker will not have a large network of GPS enabled iPhones 
 Instead, PearTags will have to take their own measurements with their own sensors and calculate their locations
 using their own processors.
 From my literature review, there are three main options for measurements that PearTags could make
-while maintaining a small form factor tracker and without unusual requirements such as nearby routers with 8+ and/or that implement the IEEE 802.11mc standard:
+while maintaining a small form factor tracker and without unusual requirements such as nearby routers with 8+ antennas and/or routers that implement the IEEE 802.11mc standard:
 
 * Satellite GPS data
 * Cell tower signal strengths 
@@ -82,55 +82,38 @@ The first thing I did was a sanity check.
 In particular, I wanted to know if there are distinguishable differences between a Wi-Fi 
 fingerprint in my kitchen, living room, and dining room.
  
-The first thing I did was measure RSSIs with my laptop in various rooms in my house. I set about placing my laptop in various parts of my house, collecting 2 minutes worth of RSSI data
-to account for RSSI noise.
-Blog post about the scripting necessary to achieve this task coming soon! 
+The first thing I did was measure RSSIs with my laptop in various rooms in my house. I set about placing my laptop in various parts of my house, collecting 2 minutes worth of RSSI data.
+A blog post about the scripting necessary to achieve this task coming soon! 
 Below is a crude drawing I made of several rooms in my house:
 
-![](/assets/images/crude-home-data/floor%20plan.PNG)
+![](/assets/images/house-sketch.png)
 
 And here are my measurements of RSSIs from my neighbor's Wi-Fi
 at various locations! 
 
-![All-Data](/assets/images/crude-home-data/all-neighbor-distributions.png)
+![](/assets/images/separately%20colored%20locations.png)
 
-Tada!
-Let's select just a few locations to compare at the same time, so we're not so overwhelmed with data.
-Here is the distribution of RSSI's at the bookshelf, the piano, and location 9 (the kitchen)
-![](/assets/images/crude-home-data/piano-kitchen-bookshelf.png)
+Tada! While my laptop could detect about 10 networks, I am only showing data for two of them for the sake of visualization. On the x-axis is data on my own network, and on the y-axis is data from one of my neighbor's networks. 
+We would hope to see that each color cluster is clearly separated the clusters. In fact, the entrance bench (light blue), garage entrance (brown), and kitchen sink do seem to be fairly distinct. Unfortunately, the same cannot be said for the other locations. 
+For example, the piano area (red) and the living room tv area (blue) have significant overlap, and I would need data from more networks to distinguish between them. 
+It's worth noting the discrete nature of the data, rather than the continuous variation one would expect from a physical phenomenon. 
+This is just an artifact from airodump-ng, the tool I use to gather this data, rounding its measurements to the nearest integer.
 
-From this we have some good news and some bad news.
-For the good news, the RSSI distribution is clearly
-different near the piano than in the kitchen and 
-near the bookshelf. 
-Thus, just by looking at my neighbor's Wi-Fi's
-RSSI distribution, I can differentiate between
-the piano location and the kitchen
+The cluster separation, or the lack thereof, might be hard to see with so many colors at once, so I've created seven graphs, each highlighting one location at a time
+![](/assets/images/Separate%20graphs%20for%20each%20location.png)
+Note how the couch, garage entrance, kitchen sink, and entrance have a fair bit of separation. These locations are about 10 feet away from each other, so it's promising that with just 2 networks, we can differentiate between locations that are about feet away from each other. 
 
-For the bad news, we see that the kitchen and
-bookshelf RSSI distribution are almost identical,
-despite being several meters away from each other
-and in different rooms. Using my neighbor's Wi-Fi
-is not enough to differentiate between the bookshelf
-location and the oven location.
-This is also the case for the location of
-my home router:
-![](/assets/images/crude-home-data/router-book-kitchen.png)
+Hopefully, information about other networks will be sufficient to identify the living room (blue), couch (black), and piano (red) areas.
+The following graphs are made with data about my local network and a different neighbor's network:
+![](/assets/images/Separate%20graphs%20for%20each%20location%20new%20network.png)
+Thankfully, we do get a fair amount of separation in those areas when we include this new network! Thus, with 3 networks, there is enough data to classify 7 areas of my house approximately 5 feet apart.
 
-The RSSI distributions are slightly different 
-for location 5 and 6, but not enough to inspire
-confidence:
-![](/assets/images/crude-home-data/router-book-kitchen-5-6.png)
+## Conclusion and future work
+The primary concern when creating an air-tag alternative is finding the appropiate data source to calculate location. After comparing several different options and collecting some data around my house, I was able to verify that Wi-Fi network strength contains sufficient information for localization with accuracy within several feet. 
 
-There are really only 3 clearly distinct RSSI distributions: the router distribution groups, the piano group,
-and the area 5/border area distribution:
+There are several more steps to translate this into a fully functional air-tag alternative. First, I have to train and test a machine learning algorithm to make estimates with this data. In my next post, I'll compare how well support vector machines, neural networks, and simple gaussian distributions compare for this application.
 
-![](/assets/images/crude-home-data/neighbor-3-group.png)
+However, this algorithm would only classify several discrete locations. This makes sense because it's easy to label training data this way. All I have to do is set my laptop down, write down the location, and wait for a couple minute's worth of data. Unfortunately, PearTags won't always be in one of several, very specific locations. I am not going to always forget my keys  on the left couch cushion where I collected training data. If I leave my keychain sporting a PearTag on the living room table, I'll want a more accurate estimate than "near the couch."
 
-Let's see if we can differentiate within the router group using my own network,
-which is cleverly named PBIB10112408:
-![](/assets/images/crude-home-data/pb%205-ghz/router%20group.png)
+Thus, the next step will involve a second algorithm to interpolate a more precise location from the first algorithm's classification. Existing methods such as the Horus fingerprinting algorithm use weighted averages for this interpolation. For example, if the classifier says there's 50% chance a fingerprint came from the couch, and 50% chance it came from the TV, the Horus algorithm would estimate that the location is midway between the couch and the TV. I hope that using more sophisticated methods will yield better results. For example, an appropriately trained neural network might have a hidden layer that can estimate whether there is a wall between the couch and the kitchen sink, and it could use this estimate to come up with a more accurate interpolation
 
-We have perfect separation! This has been a lot of graphs and data (better labeling coming soon!). Essentially, by measuring the RSSIs 
-of just 3 WiFi networks at several different locations, it is possible to guess a WiFi enabled devices location within about 10 feet. This is all without
-fancy algorithms or fingerprint interpolation, which makes me optimistic that properly implemented WiFi fingerprinting system can achieve significantly higher accuracy. There is hope for this adventure!
