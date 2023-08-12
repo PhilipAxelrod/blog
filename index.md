@@ -6,8 +6,4 @@ layout: home
 
 ## Welcome to my tech blog!
 
-I am a rising senior studying mathematics 
-at the College of Creative Studies at UC Santa Barbara, but my interests are not
-limited to math. Checkout some of the tech projects I've been working on! Whether you're interested in
-data science and artificial intelligence, or web development and scripting, or spatial localization, I guarantee
-you'll find something interesting in my projects. Checkout my blog posts below!
+I am a recent graduate with a B.S. in mathematics from the College of Creative Studies at UC Santa Barbara, but my interests are not limited to just math. If you're interested in data science, artificial intelligence, scripting, or spatial localization, you'll probably find something interesting in about my tech projects. Checkout my blog posts below!
